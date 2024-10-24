@@ -1,7 +1,7 @@
-const {validationResult, body} = require('express-validator')
+const {validationResult, body, oneOf} = require('express-validator')
 
 
-const validator = [
+const validatorRegister = [
   body('username')
     .isString()
     .notEmpty()
@@ -22,6 +22,38 @@ const validator = [
     .withMessage('identity_number must be a string'),
 ]
 
+const validatorLogin = [
+  // Check if at least one of username or email exists
+  body(['username', 'email'])
+    .optional()
+    .custom((value, { req }) => {
+      if (!req.body.username && !req.body.email) {
+        throw new Error('Either username or email is required');
+      }
+      return true;
+    }),
+
+  // Username validation - only if username is provided
+  body('username')
+    .optional()  // Make it optional
+    .isString()
+    .notEmpty()
+    .withMessage('username must be a string'),
+
+  // Email validation - only if email is provided
+  body('email')
+    .optional()  // Make it optional
+    .isEmail()
+    .notEmpty()
+    .withMessage('email must be a valid email'),
+
+  // Password validation - always required
+  body('password')
+    .isString()
+    .notEmpty()
+    .withMessage('password must be a string')
+];
+
 function validateRequest(req, res, next) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -32,5 +64,6 @@ function validateRequest(req, res, next) {
 
 module.exports = {
   validateRequest,
-  validator
+  validatorRegister,
+  validatorLogin
 }
