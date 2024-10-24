@@ -13,20 +13,23 @@ async function register(data) {
     })
 
     const isUserExist = await User.findOne({ 
-      email: data.email, 
-      username: data.username, 
-      account_number: data.account_number,
-      identity_number: data.identity_number 
-      })
+      $or: [
+        {username: data.username},
+        {email: data.email},
+        {account_number: data.account_number},
+        {identity_number: data.identity_number}
+      ],
+    })
     
     if (isUserExist) {
-      return await redisClient.publish('auth_response', JSON.stringify({ 
+    await redisClient.publish('auth_response', JSON.stringify({ 
         action: 'insert', 
         status: 'failed', 
         statusCode: 400, 
         message: 'User Already Exist' 
         })
       )
+      return
     }
 
     await newUser.save()
@@ -40,7 +43,7 @@ async function register(data) {
       statusCode: 200,
       message: 'User Registered' 
     }))
-    await redisClient.quit()
+
   } catch (error) {
     await redisClient.publish('auth_response', JSON.stringify({ 
       action: 'insert', 
@@ -52,6 +55,136 @@ async function register(data) {
   }
 }
 
+async function validate(data) {
+  try {
+    const findUser = await User.findOne({
+      $or: [
+        {username: data.username},
+        {email: data.email}
+      ]
+    })
+
+    if (!findUser) {
+      await redisClient.publish('validate_response', JSON.stringify({
+        action: 'validate',
+        status: 'failed',
+        statusCode: 400,
+        message: 'User Not Found'
+      }))
+    }
+
+    await redisClient.publish('validate_response', JSON.stringify({
+      action: 'validate',
+      status: 'success',
+      statusCode: 200,
+      message: 'User Found',
+      data: findUser
+    }))
+  } catch (error) {
+    await redisClient.publish('validate_response', JSON.stringify({ 
+      action: 'validate', 
+      status: 'failed', 
+      statusCode: 400, 
+      message: error 
+    }));
+  }
+}  
+
+async function get(data) {
+  try {
+    const findUser = await User.findOne({
+      _id: data.data.id
+    })
+
+    if (!findUser) {
+      await redisClient.publish('fetch_response', JSON.stringify({
+        action: 'get',
+        status: 'failed',
+        statusCode: 400,
+        message: 'User Not Found'
+      }))
+    }
+
+    await redisClient.publish('fetch_response', JSON.stringify({
+      action: 'get',
+      status: 'success',
+      statusCode: 200,
+      message: 'User Found',
+      data: findUser
+    }))
+
+
+  } catch (error) {
+    await redisClient.publish('fetch_response', JSON.stringify({ 
+      action: 'validate', 
+      status: 'failed', 
+      statusCode: 400, 
+      message: error 
+    }));
+  }
+}
+
+async function update(data) {
+  console.log('data update > ', data)
+  try {
+    const updateUser = await User.updateOne(
+      {_id: data.data.id},
+      {$set: {
+        email: data.data.newEmail
+      }}
+    )
+    await redisClient.publish('update_response', JSON.stringify({
+      action: 'update',
+      status: 'success',
+      statusCode: 200,
+      message: 'User Updated',
+    }))
+  } catch (error) {
+    await redisClient.publish('update_response', JSON.stringify({ 
+      action: 'validate', 
+      status: 'failed', 
+      statusCode: 400, 
+      message: error 
+    }));
+  }
+}
+
+async function deleteUser(data) {
+  try {
+    const deleteQuery = await User.deleteOne({
+      _id: data.data.id
+    })
+    console.log('delete query > ', deleteQuery)
+
+    if (deleteQuery.deletedCount === 0) {
+      await redisClient.publish('delete_response', JSON.stringify({
+        action: 'delete',
+        status: 'failed',
+        statusCode: 400,
+        message: 'User Not Found'
+      }))
+    }
+
+    await redisClient.publish('delete_response', JSON.stringify({
+      action: 'delete',
+      status: 'success',
+      statusCode: 200,
+      message: 'User Deleted',
+    }))
+  } catch (error) {
+    await redisClient.publish('delete_response', JSON.stringify({ 
+      action: 'validate', 
+      status: 'failed', 
+      statusCode: 400, 
+      message: error 
+    }));
+  }
+}
+
 module.exports = {
-  register
+  register,
+  validate,
+  get,
+  update,
+  deleteUser
 }

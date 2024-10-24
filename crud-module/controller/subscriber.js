@@ -1,13 +1,8 @@
   const controller = require('./controller');
 const {redisSubscriber} = require('../config/redis');
 
-
-redisSubscriber.on('error', (error) => {
-  console.error(`Error in Redis Subscriber: ${error}`);
-});
 async function startSubscriber() {
   try {
-    // await redisClient.connect();
     await redisSubscriber.subscribe('auth', (message) => {
       console.log(`Received message on channel 'auth': ${message}`);
       // Tambahkan logika untuk memproses pesan di sini jika diperlukan
@@ -19,9 +14,19 @@ async function startSubscriber() {
       }
       if (parseMessage.action === 'update') {
           console.log('update')
+          controller.update(parseMessage)
       }
       if (parseMessage.action === 'delete') {
           console.log('delete')
+          controller.deleteUser(parseMessage)
+      }
+      if (parseMessage.action === 'validate') {
+        console.log('validate')
+        controller.validate(parseMessage)
+      }
+      if (parseMessage.action === 'get') {
+        console.log('get')
+        controller.get(parseMessage)
       }
   });
   } catch (error) {
