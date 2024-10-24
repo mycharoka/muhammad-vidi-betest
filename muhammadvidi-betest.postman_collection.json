@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "393c99e1-bf63-43da-b557-10b9f796d4ee",
+		"name": "muhammadvidi-betest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12129683"
+	},
+	"item": [
+		{
+			"name": "localhost:8001/api/v1/auth/delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWE0YjY2NTU4M2FjMjFhOGYzOTdmMiIsInVzZXJuYW1lIjoiYm9kYXQiLCJlbWFpbCI6ImJvZGF0QG1haWwuY29tIiwiaWF0IjoxNzI5Nzc2OTcwLCJleHAiOjE3Mjk4NjMzNzB9.msTH3wCLtHXD4JVvl6OKaZcWl77dooW2iKrDU-HykIc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8001/api/v1/auth/profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzNWYzYzFhNjhlODI0MjY0OTgyNyIsInVzZXJuYW1lIjoicmlkYSIsImVtYWlsIjoicmlkYUBtYWlsLmNvbSIsImlhdCI6MTcyOTc3NjAwMSwiZXhwIjoxNzI5ODYyNDAxfQ.EqeA7FtSsS7Ic9JzCLy29TQWQZNoj9ZhJejrau9Q9EU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8001/api/v1/auth/update?newEmail=vidi@newvidi.com",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTllM2I4MDE5ZjQ4YWMwMGZkZTkzNSIsInVzZXJuYW1lIjoidmlkaSIsImVtYWlsIjoidmlkaUB2aWRpLmNvbSIsImlhdCI6MTcyOTc2MjkzNywiZXhwIjoxNzI5ODQ5MzM3fQ.4x2A7-soMC4tC8pEWPIUKiZo_juTpIkbbEflVM872Ak",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/update?newEmail=vidi@newvidi.com",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"update"
+					],
+					"query": [
+						{
+							"key": "newEmail",
+							"value": "vidi@newvidi.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8001/api/v1/auth/find/671a35f3c1a68e8242649827",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTllM2I4MDE5ZjQ4YWMwMGZkZTkzNSIsInVzZXJuYW1lIjoidmlkaSIsImVtYWlsIjoidmlkaUB2aWRpLmNvbSIsImlhdCI6MTcyOTc2MjkzNywiZXhwIjoxNzI5ODQ5MzM3fQ.4x2A7-soMC4tC8pEWPIUKiZo_juTpIkbbEflVM872Ak",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/find/671a35f3c1a68e8242649827",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"find",
+						"671a35f3c1a68e8242649827"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8001/api/v1/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"bodat\",\n    \"password\": \"bodat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8001/api/v1/auth/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"bodat\",\n    \"email\": \"bodat@mail.com\",\n    \"password\": \"bodat\",\n    \"account_number\": \"12\",\n    \"identity_number\": \"12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8001/api/v1/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
