@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  crud-manager:
+    build: ./crud-manager
+    ports:
+      - 8001:8001
+    depends_on:
+      - redis
+    networks:
+      - my-network
+  
+  crud-module:
+    build: ./crud-module
+    ports:
+      - 8002:8002
+    depends_on:
+      - redis
+      - mongo
+    networks:
+      - my-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+    networks:
+      - my-network
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
+    environment:
+      - MONGO_INITDB_DATABASE=db_muhammadvidi_betest
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  my-network:
+volumes:
+  mongo-data:
