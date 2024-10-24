@@ -22,3 +22,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`CRUD process application running on ${port} 🛠️`)
 })
+
+// module.exports = app
