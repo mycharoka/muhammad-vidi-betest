@@ -1,7 +1,19 @@
 const Redis = require('redis')
 
-const redisClient = Redis.createClient({
-  url:`redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
-})
+const redisPublish = Redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` // Sesuaikan host dan port
+});
+const redisSubscribe = Redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` // Sesuaikan host dan port
+});
+const redisCache = Redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` // Sesuaikan host dan port
+});
 
-module.exports = redisClient
+(async () => {
+  await redisPublish.connect()
+  await redisSubscribe.connect()
+  await redisCache.connect()
+})();
+
+module.exports = {redisPublish, redisSubscribe, redisCache}
